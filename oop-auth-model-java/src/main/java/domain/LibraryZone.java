@@ -1,5 +1,9 @@
 package domain;
 
+import services.BehaviorRuleObserver;
+import services.LightAlertObserver;
+import services.NoiseAlertObserver;
+
 public class LibraryZone {
 
     private String id;
@@ -10,6 +14,7 @@ public class LibraryZone {
         this.id = id;
         this.lightingSensor = new LightingSensor();
         this.noiseSensor = new NoiseSensor();
+        setupObservers();
     }
 
     public String getId() {
@@ -33,5 +38,15 @@ public class LibraryZone {
 
     public void turnLightsOff() {
         lightingSensor.turnOff();
+    }
+
+    private void setupObservers() {
+        // Observadores para ruido
+        noiseSensor.addObserver(new NoiseAlertObserver());
+        noiseSensor.addObserver(new BehaviorRuleObserver());
+        
+        // Observadores para luz
+        lightingSensor.addObserver(new LightAlertObserver());
+        lightingSensor.addObserver(new BehaviorRuleObserver());
     }
 }
